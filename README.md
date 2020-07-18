@@ -7,10 +7,12 @@
 ***
 
  Tiene dos tipos de usuario:
- * Administrador
- * Vendedor
+ * Administrador.
+ * Vendedor.
 
 ***
 
 Clic para ver  [Documentación](https://drive.google.com/drive/folders/1e3IaNRnrvfVBT0ISYwtnLo9T-eUKk9fV?usp=sharing "Ver documentación")
+
+Adios.
 

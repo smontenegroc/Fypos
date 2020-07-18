@@ -7,8 +7,8 @@
 ***
 
  Tiene dos tipos de usuario:
- * Administrador.
- * Vendedor.
+ * Administrador
+ * Vendedor
 
 ***
 

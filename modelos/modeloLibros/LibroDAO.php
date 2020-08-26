@@ -40,7 +40,7 @@ class LibroDAO  extends ConBdMysql{
         }
         $this->cierreBd();
         if(!empty($registroEncontrado)){
-            return ['exitoSeleccionId' => 1 , 'registroEncontrado' => $registroEncontrado];
+            return ['exitoSeleccionId' => TRUE , 'registroEncontrado' => $registroEncontrado];
         }
         else{
             return ['exitoSeleccionId' => FALSE , 'registroEncontrado' => $registroEncontrado];
@@ -65,8 +65,53 @@ class LibroDAO  extends ConBdMysql{
             $clavePrimariaConQueInserto = $this->conexion->lastInsertId();
             return ['inserto' => 1,'resultado' => $clavePrimariaConQueInserto];
             
-        } catch (Exception $ex) {
+        } catch (Exception $pdoExc) {
             return ['insert' => 0, 'resultado' =>$pdoExc];
         }
+    }
+    
+    public function actualizar($registro){
+        try{
+            $autor = $registro['autor']; 
+            $titulo = $registro['titulo']; 
+            $precio = $registro['precio']; 
+            $categoria = $registro['categoriaLibro_catLibId']; 
+            $isbn = $registro['isbn']; 
+            
+            if(isset($isbn)){
+                $actualizar = "UPDATE libros SET autor= ?, titulo= ?, precio= ?, categoriaLibro_catLibId= ? WHERE isbn= ?";
+                $actualizacion = $this->conexion->prepare($actualizar);
+                $actualizacion = $actualizacion->execute(array($autor,$titulo,$precio,$categoria));
+                return['actualización' => $actualizacion, 'mensaje' => "Actualización realizada"];
+            }
+        } catch (PDOException $pdoExc) {
+            $err = ['mensaje' =>$pdoExc];
+            return ("Error al insertar " . $err['mensaje']);
+        }
+    }
+    
+    public function eliminar($sId=array()){
+        $planConsulta = "DELETE FROM libros";
+        $planConsulta .= " WHERE isbn = :isbn ;";
+        $eliminar = $this->conexion->prepare($planConsulta);
+        $eliminar->bindParam(':isbn', $sId[0], PDO::PARAM_INT);
+        $eliminar->execute();
+        
+        $this->cierreBd();
+        
+        if(!empty($resultado)){
+            return ['eliminar' => TRUE, 'registroEliminado' => array($sId[0])];
+        }
+        else{
+            return ['eliminar' => FALSE, 'registroEliminado' => array($sId[0])];
+        }
+     }
+     
+     public function eliminarLogico($sId=array()){
+         try{             
+            $consulta = "UPDATE";
+         } catch (Exception $PDOExc) {
+             return "error " . $PDOExc;
+         }        
     }
 }

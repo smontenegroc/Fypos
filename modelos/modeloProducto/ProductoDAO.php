@@ -47,8 +47,8 @@ class ProductoDAO extends ConBdMysql{
     public function insertarProducto($registro){
         try {
             $query = "INSERT INTO producto";
-            $query += " (proNombre,proDescripcion,proPrecio,proCantidad,provId)";
-            $query += " VALUES ( :proNombre, :proDescripcion, :proPrecio; :proCantidad, :provId)";
+            $query .= " (proNombre,proDescripcion,proPrecio,proCantidad,provId)";
+            $query .= " VALUES ( :proNombre, :proDescripcion, :proPrecio; :proCantidad, :provId)";
             
             $inserta = $this->conexion->prepare($query);
             $inserta->bindParam(":proNombre",$registro['proNombre']);
@@ -60,8 +60,59 @@ class ProductoDAO extends ConBdMysql{
             $clavePrimariaConQueInserto = $this->conexion->lastInsertId();
             return ['inserto' => 1,'resultado' => $clavePrimariaConQueInserto];
             
-        } catch (Exception $ex) {
-            
+        } catch (PDOException $pdoExc) {
+            return ['insert' => 0, 'resultado' =>$pdoExc];
+        }
+    }
+    
+    public function actualizarProducto($registro){
+        
+        try {
+          $proId = $registro['proId'];
+          $proNombre = $registro['proNombre'];
+          $proDescripcion = $registro['proDescripcion'];
+          $proPrecio = $registro['proPrecio'];
+          $proCantidad = $registro['proCantidad'];
+          
+          if(isset($proId)){
+            $actualizar = "UPDATE producto SET proNombre=?, proDescripcion=?, proPrecio=?, proCantidad=? WHERE proId=?;";
+            $actualizacion = $this->conexion->prepare($actualizar);
+            $actualizacion = $actualizacion->execute(array($proNombre,$proDescripcion,$proPrecio,$proCantidad,$proId));
+            return['actualización' => $actualizacion, 'mensaje' => "Actualización realizada"];
+          }
+        } catch (PDOException $pdoExc) {
+            $err = ['mensaje' =>$pdoExc];
+            return ("Error al actualizar " . $err['mensaje']);
+        }
+    }
+    
+    public function eliminadoFisicoProducto($sId=array()){
+        $qeliminar = "DELETE FROM producto ";
+        $qeliminar .= "WHERE proId= :proId ;";
+        $eliminar = $this->conexion->prepare($qeliminar);
+        $eliminar->bindParam(':proId', $sId[0], PDO::PARAM_INT);
+        $eliminar->execute();
+        $this->cierreBd();
+        
+        if(!empty($resultado)){
+            return ['eliminar' => TRUE, 'registroEliminado' => array($sId[0])];;
+        }
+        else{
+            return ['eliminar' => FALSE, 'registroEliminado' => array($sId[0])];
+        }
+    }
+    
+    public function eliminadoLogicoProducto($sId=array()) {
+        try {
+            $cambiarEstado = 0;
+            if(isset($sId[0])){
+                $eliminarLogico = "UPDATE producto SET proEstado=? WHERE proId=?;";
+                $eliminacionLogica = $this->conexion->prepare($eliminarLogico);
+                $eliminacionLogica = $eliminacionLogica->execute(array($cambiarEstado,$sId[0]));
+                return ['Eliminado' => $eliminacionLogica, 'Mensaje' => 'Registro ináctivo'];
+            }
+        } catch (PDOException $pdoExc) {
+            return ['Mensaje' => $pdoExc];
         }
     }
 }

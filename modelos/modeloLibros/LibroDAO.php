@@ -27,7 +27,7 @@ class LibroDAO  extends ConBdMysql{
     
     public function seleccionarId($sId = array()){
         
-        $planConsulta = "select * from libros l";
+        $planConsulta = "select * from ven l";
         $planConsulta .= " where l.isbn=? ;";
         
         $listar = $this->conexion->prepare($planConsulta);
@@ -78,15 +78,16 @@ class LibroDAO  extends ConBdMysql{
             $categoria = $registro['categoriaLibro_catLibId']; 
             $isbn = $registro['isbn']; 
             
+            
             if(isset($isbn)){
                 $actualizar = "UPDATE libros SET autor= ?, titulo= ?, precio= ?, categoriaLibro_catLibId= ? WHERE isbn= ?";
                 $actualizacion = $this->conexion->prepare($actualizar);
-                $actualizacion = $actualizacion->execute(array($autor,$titulo,$precio,$categoria));
+                $actualizacion = $actualizacion->execute(array($autor,$titulo,$precio,$categoria,$isbn));
                 return['actualización' => $actualizacion, 'mensaje' => "Actualización realizada"];
             }
         } catch (PDOException $pdoExc) {
             $err = ['mensaje' =>$pdoExc];
-            return ("Error al insertar " . $err['mensaje']);
+            return ("Error al actualizar " . $err['mensaje']);
         }
     }
     
@@ -108,10 +109,18 @@ class LibroDAO  extends ConBdMysql{
      }
      
      public function eliminarLogico($sId=array()){
-         try{             
-            $consulta = "UPDATE";
-         } catch (Exception $PDOExc) {
-             return "error " . $PDOExc;
+         try{  
+                $cambiarEstado = 0;
+            
+            if(isset($sId[0])){
+                $eliminarLogico = "UPDATE libros SET estado= ? WHERE isbn= ?;";
+                $eliminacionLogica = $this->conexion->prepare($eliminarLogico);
+                $eliminacionLogica = $eliminacionLogica->execute(array($cambiarEstado,$sId[0]));
+                return ['Eliminado' => $eliminacionLogica, 'Mensaje' => 'Registro ináctivo'];
+            }
+            
+         } catch (PDOException $pdoExc) {
+            return ['Mensaje' => $pdoExc];
          }        
     }
 }

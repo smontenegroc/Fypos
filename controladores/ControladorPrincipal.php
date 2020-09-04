@@ -1,6 +1,6 @@
 <?php
 
-include_once PATH . 'controladores/ProductoControlador.php';
+include_once 'ProductoControlador.php';
 
 class ControladorPrincipal{
     private $datos = array();
@@ -11,12 +11,18 @@ class ControladorPrincipal{
         }
         if(!empty($_GET) && isset($_GET['ruta'])){
             $this->datos = $_GET;
-        }
-        
+        }        
         $this->control();
     }
     
     public function control() {
-        
+        switch ($this->datos['ruta']){
+            case 'listarProductos':
+                $productoControlador = new ProductoControlador($this->datos);
+                break;
+            case 'actualizarProducto':
+                $productoControlador = new ProductoControlador($this->datos);
+                break;
+        }
     }
 }

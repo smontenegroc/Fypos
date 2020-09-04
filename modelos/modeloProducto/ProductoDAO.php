@@ -1,4 +1,5 @@
-    <?php
+<?php
+include_once PATH .'modelos/ConBdMysql.php';
 
 class ProductoDAO extends ConBdMysql{
     
@@ -7,9 +8,8 @@ class ProductoDAO extends ConBdMysql{
     }
     
     public function listarProductos(){
-        
-        $consulta = "SELECT proId,proNombre,proDescripcion,proPrecio,proCantidad FROM producto";
-        
+        $consulta = "SELECT pr.proId, pr.proNombre, pr.proDescripcion,pr.proPrecio, pr.proCantidad, pv.provNombre ";
+        $consulta .="FROM  producto AS pr JOIN proveedor  AS pv ON pr.provId = pv.provId  WHERE pr.proEstado = 1";
         $productos = $this->conexion->prepare($consulta);
         $productos->execute();
         
@@ -25,7 +25,8 @@ class ProductoDAO extends ConBdMysql{
     
     public function productoPorId($sId = array()){
         
-        $consulta = "SELECT * FROM producto WHERE proId= ? ;";
+        $consulta = "SELECT pr.proId, pr.proNombre, pr.proDescripcion, pr.proPrecio, pr.proCantidad, pv.provNombre"
+                . " FROM producto AS pr  JOIN proveedor AS pv ON pr.provId = pv.provId WHERE pr.proId= ? ;";
         
         $producto = $this->conexion->prepare($consulta);
         $producto->execute(array($sId[0]));

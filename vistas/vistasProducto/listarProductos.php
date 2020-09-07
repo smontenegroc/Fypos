@@ -29,10 +29,19 @@ if(isset($_SESSION['listaDeProductos'])){
                 <td><?php echo $listaDeProductos[$i]->proCantidad; ?></td>
                 <td><?php echo $listaDeProductos[$i]->provNombre; ?></td> 
                 <td><a href="Controlador.php?ruta=actualizarProducto&idAct=<?php echo $listaDeProductos[$i]->proId; ?>"><i class="far fa-edit"></a></td>
-                <td><a href="Controlador.php?ruta=eliminarLibro&idAct=" onclick="return confirm('Está seguro de eliminar el registro?')"><i class="fas fa-trash-alt"></i></a></td>  
+<!--                <td>
+                    <a href="Controlador.php?ruta=actualizarProducto&idAct=<?php // echo $listaDeProductos[$i]->proId; ?>">Actualizar</a>
+                </td>-->
+                <td>
+                    <a href="Controlador.php?ruta=eliminarProducto&idEli=<?php echo $listaDeProductos[$i]->proId; ?>" 
+                       onclick="return confirm('Está seguro de eliminar el registro?')">
+                       <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>  
             </tr>   
             <?php $i++;
         } ?>
     </tbody>
 </table>
+<a href="Controlador.php?insertarProducto">Agregar Producto</a>
 

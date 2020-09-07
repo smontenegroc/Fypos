@@ -23,13 +23,11 @@ class ProductoDAO extends ConBdMysql{
         return $listadoProductos;
     }
     
-    public function productoPorId($sId = array()){
-        
+    public function productoPorId($sId){
         $consulta = "SELECT pr.proId, pr.proNombre, pr.proDescripcion, pr.proPrecio, pr.proCantidad, pv.provNombre"
-                . " FROM producto AS pr  JOIN proveedor AS pv ON pr.provId = pv.provId WHERE pr.proId= ? ;";
-        
+                . " FROM producto AS pr  JOIN proveedor AS pv ON pr.provId = pv.provId WHERE pr.proId= ? ;";        
         $producto = $this->conexion->prepare($consulta);
-        $producto->execute(array($sId[0]));
+        $producto->execute(array($sId));
         
         $registroEncontrado = array();
         
@@ -37,6 +35,7 @@ class ProductoDAO extends ConBdMysql{
             $registroEncontrado[] = $registro; 
         }
         $this->cierreBd();
+
         if(!empty($registroEncontrado)){
             return ['exitoSeleccionId' => TRUE , 'registroEncontrado' => $registroEncontrado];
         }
@@ -66,19 +65,18 @@ class ProductoDAO extends ConBdMysql{
         }
     }
     
-    public function actualizarProducto($registro){
-        
+    public function actualizarProducto($registro){        
         try {
           $proId = $registro['proId'];
           $proNombre = $registro['proNombre'];
           $proDescripcion = $registro['proDescripcion'];
           $proPrecio = $registro['proPrecio'];
           $proCantidad = $registro['proCantidad'];
-          
+          $proveedor = $registro['proveedores'];          
           if(isset($proId)){
-            $actualizar = "UPDATE producto SET proNombre=?, proDescripcion=?, proPrecio=?, proCantidad=? WHERE proId=?;";
+            $actualizar = "UPDATE producto SET proNombre=?, proDescripcion=?, proPrecio=?, proCantidad=?, provId=? WHERE proId=?;";
             $actualizacion = $this->conexion->prepare($actualizar);
-            $actualizacion = $actualizacion->execute(array($proNombre,$proDescripcion,$proPrecio,$proCantidad,$proId));
+            $actualizacion = $actualizacion->execute(array($proNombre,$proDescripcion,$proPrecio,$proCantidad,$proveedor,$proId));
             return['actualización' => $actualizacion, 'mensaje' => "Actualización realizada"];
           }
         } catch (PDOException $pdoExc) {
@@ -103,13 +101,13 @@ class ProductoDAO extends ConBdMysql{
         }
     }
     
-    public function eliminadoLogicoProducto($sId=array()) {
+    public function eliminadoLogicoProducto($sId) {
         try {
             $cambiarEstado = 0;
-            if(isset($sId[0])){
+            if(isset($sId)){
                 $eliminarLogico = "UPDATE producto SET proEstado=? WHERE proId=?;";
                 $eliminacionLogica = $this->conexion->prepare($eliminarLogico);
-                $eliminacionLogica = $eliminacionLogica->execute(array($cambiarEstado,$sId[0]));
+                $eliminacionLogica = $eliminacionLogica->execute(array($cambiarEstado,$sId));
                 return ['Eliminado' => $eliminacionLogica, 'Mensaje' => 'Registro ináctivo'];
             }
         } catch (PDOException $pdoExc) {

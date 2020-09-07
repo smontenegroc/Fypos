@@ -36,7 +36,8 @@ if(isset($_SESSION['mensaje'])){
                 <p>Fypos</p>
                 <nav>
                     <ul>
-                        <li><a href="Controlador.php?ruta=listarProductos&pag=0">Listar Productos</a></li>
+                        <li><a href="Controlador.php?ruta=listarProductos&pag=0">Productos</a></li>
+                        <li><a href="Controlador.php?ruta=listarProveedores">Proveedores</a></li>
                     </ul>
                 </nav>
             </section>
@@ -60,8 +61,12 @@ if(isset($_SESSION['mensaje'])){
                         pageLength: 10,
                         lengthMenu: [[5, 10,15,20], [5, 10,15,20]],
                         language: {
+                            emptyTable: "No hay datos",
+                            info: "_END_ registros de _TOTAL_",
+                            infoFiltered: "",
                             lengthMenu: "Mostrar _MENU_ registros",
                             search: "Buscar:",
+                            zeroRecords: "No hay coincidencias",
                             paginate: {
                                 next: "Siguiente",
                                 previous: "Anterior"

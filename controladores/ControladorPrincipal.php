@@ -20,9 +20,19 @@ class ControladorPrincipal{
             case 'listarProductos':
                 $productoControlador = new ProductoControlador($this->datos);
                 break;
-            case 'actualizarProducto':
+            case 'actualizarProducto':   
+                $productoControlador = new ProductoControlador($this->datos);
+                break;
+            case 'eliminarProducto':
+                $productoControlador = new ProductoControlador($this->datos);
+                break;
+            case 'confirmaActualizarProducto':
+                $productoControlador = new ProductoControlador($this->datos);
+                break;
+            case 'insertarProducto':
                 $productoControlador = new ProductoControlador($this->datos);
                 break;
         }
+        
     }
 }

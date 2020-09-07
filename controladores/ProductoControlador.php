@@ -19,15 +19,12 @@ class ProductoControlador{
                 session_start();
                 $_SESSION['listaDeProductos'] = $registroProductos;
                 header('location:principal.php?contenido=vistas/vistasProducto/listarProductos.php');
-            break;
+                break;
         
             case 'actualizarProducto':
                 $gestarProducto = new ProductoDAO(SERVIDOR, BASE, USUARIO_DB, CONTRESENIA_DB);
-                $consultaDeProducto =  $gestarProducto->productoPorId($this->datos['idAct']);
-//                echo '<pre>';
-//                print_r($consultaDeProducto);
-//                echo '</pre>';
-//                exit();
+ 
+                $consultaDeProducto =  $gestarProducto->productoPorId($this->datos['idAct']);                
                 $actualizarDatosProducto = $consultaDeProducto['registroEncontrado'][0];
                 
                 $gestarProveedor = new ProveedorDAO(SERVIDOR, BASE, USUARIO_DB, CONTRESENIA_DB);
@@ -38,7 +35,25 @@ class ProductoControlador{
                 $_SESSION['registroProveedor'] = $registroProveedor;
                 
                 header('location:principal.php?contenido=vistas/vistasProducto/actualizarProducto.php');
-            break;
+                break;
+            case 'eliminarProducto':
+                $gestarProducto = new ProductoDAO(SERVIDOR, BASE, USUARIO_DB, CONTRESENIA_DB);
+                $gestarProducto->eliminadoLogicoProducto($this->datos['idEli']);
+                session_start();
+                $_SESSION['mensaje'] = "Borrado exitoso!";
+                header('location:Controlador.php?ruta=listarProductos');
+                break;
+            case 'confirmaActualizarProducto':
+                $gestarProducto = new ProductoDAO(SERVIDOR, BASE, USUARIO_DB, CONTRESENIA_DB);
+                $actualizarProducto = $gestarProducto->actualizarProducto($this->datos);
+                session_start();
+                $_SESSION['mensaje'] = 'Datos actualizados';
+                header('location:Controlador.php?ruta=listarProductos');
+                break;
+            case 'insertarProducto':
+                header('location:principal.php?contenido=vistas/vistasProducto/insertarProducto.php');
+                break;
+            
         }
     }
 }

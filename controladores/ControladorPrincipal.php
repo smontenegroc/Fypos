@@ -2,6 +2,7 @@
 
 include_once 'ProductoControlador.php';
 
+
 class ControladorPrincipal{
     private $datos = array();
     
@@ -32,6 +33,9 @@ class ControladorPrincipal{
             case 'insertarProducto':
                 $productoControlador = new ProductoControlador($this->datos);
                 break;
+//            case 'listarVendedores'
+//                prin
+//                break;
         }
         
     }

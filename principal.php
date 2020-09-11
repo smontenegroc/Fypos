@@ -1,6 +1,6 @@
-<?php
+        <?php
 session_start();
-include_once 'modelos/ConstantesConexion.php';
+include_once 'modelos\ConstantesConexion.php';
 if(isset($_SESSION['mensaje'])){
     $mensaje = $_SESSION['mensaje'];
     echo "<script languaje='javascript'>alert('$mensaje')</script>";
@@ -38,6 +38,7 @@ if(isset($_SESSION['mensaje'])){
                     <ul>
                         <li><a href="Controlador.php?ruta=listarProductos&pag=0">Productos</a></li>
                         <li><a href="Controlador.php?ruta=listarProveedores">Proveedores</a></li>
+                        <li><a href="Controlador.php?ruta=listarVendedores">Vendedores</a></li>
                     </ul>
                 </nav>
             </section>

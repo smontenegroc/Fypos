@@ -31,7 +31,7 @@ if(isset($_SESSION['erroresValidacion'])){
 <form method="post" action="Controlador.php" id="formRegistro">
     <div>
         <!--Id: <span name="proId"><?php // if(isset($actualizarDatosProducto->proId)){echo $actualizarDatosProducto->proId;} ?></span><br><br>-->
-        Id: <input type="text" name="proId" value=<?php if(isset($actualizarDatosProducto->proId)){echo $actualizarDatosProducto->proId;} ?>><br><br>
+        Id: <input type="text" name="proId" value=<?php if(isset($actualizarDatosProducto->proId)){echo $actualizarDatosProducto->proId;} ?> readonly><br><br>
         Producto <input type="text" name="proNombre" value=<?php if(isset($actualizarDatosProducto->proNombre)){echo $actualizarDatosProducto->proNombre;}?>><br><br>
         Descripción: <input type="text" name="proDescripcion" value=<?php if(isset($actualizarDatosProducto->proDescripcion)){echo $actualizarDatosProducto->proDescripcion;}?>><br><br>
         Precio: <input type="text" name="proPrecio" value=<?php if(isset($actualizarDatosProducto->proPrecio)){echo $actualizarDatosProducto->proPrecio;}?>><br><br>

@@ -10,13 +10,12 @@ if (isset($_SESSION['erroresValidacion'])) {
 }
 ?>
 <h2>Insertar producto</h2>
-<form>
-    <input type="text" name="proId" id="proId"><br><br>
-    <input type="text" name="proNombre" id="proNombre"><br><br>
-    <input type="text" name="proDescripcion" id="proDescripcion"><br><br>
-    <input type="text" name="proPrecio" id="proPrecio"><br><br>
-    <input type="text" name="proCantidad" id="proCantidad"><br><br>
-    <select id="provId" name="provId">
+<form method="post" action="Controlador.php">
+    Producto: <input type="text" name="proNombre" id="proNombre"><br><br>
+    Descripción: <input type="text" name="proDescripcion" id="proDescripcion"><br><br>
+    Precio: <input type="text" name="proPrecio" id="proPrecio"><br><br>
+    Cantidad: <input type="text" name="proCantidad" id="proCantidad"><br><br>
+    Proveedor: <select id="provId" name="provId">
         <?php
         for($i=0;$i<$cantProveedores;$i++){
         ?>
@@ -25,5 +24,6 @@ if (isset($_SESSION['erroresValidacion'])) {
         </option>
         <?php } ?>
     </select><br><br>
+    <button type="submit" name="ruta" value="insertarProducto">Agregar Producto</button>
 </form>
 

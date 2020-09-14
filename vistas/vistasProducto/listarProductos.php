@@ -43,5 +43,5 @@ if(isset($_SESSION['listaDeProductos'])){
         } ?>
     </tbody>
 </table>
-<a href="Controlador.php?insertarProducto">Agregar Producto</a>
+<a href="Controlador.php?ruta=mostrarInsertarProducto">Agregar Producto</a>
 

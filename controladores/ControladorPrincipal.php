@@ -1,6 +1,7 @@
 <?php
 
 include_once 'ProductoControlador.php';
+include_once 'ProveedoresControlador.php';
 
 
 class ControladorPrincipal{
@@ -30,12 +31,15 @@ class ControladorPrincipal{
             case 'confirmaActualizarProducto':
                 $productoControlador = new ProductoControlador($this->datos);
                 break;
+            case 'mostrarInsertarProducto':
+                $productoControlador = new ProductoControlador($this->datos);
+                break;
             case 'insertarProducto':
                 $productoControlador = new ProductoControlador($this->datos);
                 break;
-//            case 'listarVendedores'
-//                prin
-//                break;
+            case 'listarProveedores':
+                $proveedorControlador = new ProveedoresControlador($this->datos);
+                break;
         }
         
     }

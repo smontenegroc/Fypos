@@ -18,7 +18,7 @@ class ProductoControlador{
                 $registroProductos = $gestarProductos->listarProductos();
                 session_start();
                 $_SESSION['listaDeProductos'] = $registroProductos;
-                header('location:principal.php?contenido=vistas/vistasProducto/listarProductos.php');
+                header('location:principal.php?contenido=vistas/vistasProveedores/listarProveedores.php');
                 break;
         
             case 'actualizarProducto':
@@ -50,10 +50,24 @@ class ProductoControlador{
                 $_SESSION['mensaje'] = 'Datos actualizados';
                 header('location:Controlador.php?ruta=listarProductos');
                 break;
-            case 'insertarProducto':
+            case 'mostrarInsertarProducto':
+                $gestarProveedor = new ProveedorDAO(SERVIDOR, BASE, USUARIO_DB, CONTRESENIA_DB);
+                $registroProveedor = $gestarProveedor->listarProveedores();
+                session_start();
+                $_SESSION['registroProveedor'] = $registroProveedor;
                 header('location:principal.php?contenido=vistas/vistasProducto/insertarProducto.php');
                 break;
-            
+            case 'insertarProducto':
+//                $buscarProducto = new ProductoDAO(SERVIDOR,BASE,USUARIO_DB,CONTRESENIA_DB);
+//                $productoHallado = $buscarProducto->productoPorId($this->datos);
+                $insertarProducto = new ProductoDAO(SERVIDOR, BASE, USUARIO_DB, CONTRESENIA_DB);
+                $insertoProducto = $insertarProducto->insertarProducto($this->datos);
+                $exitoInsercionproducto = $insertoProducto['inserto'];
+                $resultadoInsercionProducto = $insertoProducto['resultado'];
+                session_start();
+                $_SESSION['mensaje'] = "Registrado ".$this->datos['proNombre']. " con éxito. Producto agregado " . $resultadoInsercionProducto;
+                header('location:Controlador.php?ruta=listarProductos');
+                break;            
         }
     }
 }

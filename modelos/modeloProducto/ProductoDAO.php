@@ -48,7 +48,7 @@ class ProductoDAO extends ConBdMysql{
         try {
             $query = "INSERT INTO producto";
             $query .= " (proNombre,proDescripcion,proPrecio,proCantidad,provId)";
-            $query .= " VALUES ( :proNombre, :proDescripcion, :proPrecio; :proCantidad, :provId)";
+            $query .= " VALUES ( :proNombre, :proDescripcion, :proPrecio, :proCantidad, :provId)";
             
             $inserta = $this->conexion->prepare($query);
             $inserta->bindParam(":proNombre",$registro['proNombre']);
@@ -56,12 +56,12 @@ class ProductoDAO extends ConBdMysql{
             $inserta->bindParam(":proPrecio",$registro['proPrecio']);
             $inserta->bindParam(":proCantidad",$registro['proCantidad']);
             $inserta->bindParam(":provId",$registro['provId']);
-            $insercion = $inserta->execute(); 
+            $insercion = $inserta->execute();
             $clavePrimariaConQueInserto = $this->conexion->lastInsertId();
             return ['inserto' => 1,'resultado' => $clavePrimariaConQueInserto];
             
         } catch (PDOException $pdoExc) {
-            return ['insert' => 0, 'resultado' =>$pdoExc];
+            return ['inserto' => 0, 'resultado' =>$pdoExc];
         }
     }
     
@@ -90,11 +90,11 @@ class ProductoDAO extends ConBdMysql{
         $qeliminar .= "WHERE proId= :proId ;";
         $eliminar = $this->conexion->prepare($qeliminar);
         $eliminar->bindParam(':proId', $sId[0], PDO::PARAM_INT);
-        $eliminar->execute();
+        $resultado = $eliminar->execute();
         $this->cierreBd();
         
         if(!empty($resultado)){
-            return ['eliminar' => TRUE, 'registroEliminado' => array($sId[0])];;
+            return ['eliminar' => TRUE, 'registroEliminado' => array($sId[0])];
         }
         else{
             return ['eliminar' => FALSE, 'registroEliminado' => array($sId[0])];
